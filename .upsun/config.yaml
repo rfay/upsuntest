@@ -19,9 +19,7 @@ applications:
     # side is in the form `<service name>:<endpoint name>`.
     # More information: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html#relationships
     relationships:
-      mariadb1:
-        service: mariadb1
-        endpoint: mysql
+      db: mariadb1:mysql
 
     mounts:
       "web/sites/default/files":
@@ -130,9 +128,7 @@ applications:
       root: "/"
     type: "php:8.3"
     relationships:
-      mariadb2:
-        service: mariadb2
-        endpoint: mysql
+      db: mariadb2:mysql
     mounts:
       "web/sites/default/files":
         source: storage
