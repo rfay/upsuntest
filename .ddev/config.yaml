@@ -1,4 +1,4 @@
-name: d11
+name: upsuntest
 type: drupal11
 docroot: web
 php_version: "8.3"
@@ -8,7 +8,6 @@ additional_fqdns: []
 database:
     type: mariadb
     version: "11.8"
-dbimage_extra_packages: [sudo]
 use_dns_when_possible: true
 composer_version: "2"
 web_environment: []

@@ -1,6 +1,6 @@
 # Complete list of all available properties: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html
 applications:
-  upsuntest:
+  app1:
     # Application source code directory
     source:
       root: "/"
@@ -19,7 +19,7 @@ applications:
     # side is in the form `<service name>:<endpoint name>`.
     # More information: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html#relationships
     relationships:
-      mariadb:
+      db: "mariadb1:db"
 
     mounts:
       "web/sites/default/files":
@@ -123,15 +123,45 @@ applications:
       # More information: https://docs.upsun.com/create-apps/hooks/hooks-comparison.html#deploy-hook
       # post_deploy: |
 
-    # Scheduled tasks for the app.
-    # More information: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html#crons
-    # crons:
-
-    # Customizations to your PHP or Lisp runtime. More information: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html#runtime
-    # runtime:
-
-    # More information: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html#additional-hosts
-    # additional_hosts:
+  app2:
+    source:
+      root: "/"
+    type: "php:8.3"
+    relationships:
+      db: "mariadb2:db"
+    mounts:
+      "web/sites/default/files":
+        source: storage
+        source_path: "sites/default/files"
+      "private":
+        source: storage
+        source_path: "private"
+    web:
+      locations:
+        "/":
+          passthru: "/index.php"
+          root: "web"
+    variables:
+      env:
+        N_PREFIX: "/app/.global"
+    build:
+      flavor: none
+    dependencies:
+      nodejs:
+        n: "*"
+        npx: "*"
+        yarn: "^1.22.0"
+      php:
+        composer/composer: "^2"
+    hooks:
+      build: |
+        set -eux
+        composer --no-ansi --no-interaction install --no-progress --prefer-dist --optimize-autoloader --no-dev
+        n auto || n lts
+        hash -r
+        yarn
+      deploy: |
+        set -eux
 
 # The services of the project.
 #
@@ -140,8 +170,10 @@ applications:
 # More information: https://docs.upsun.com/add-services.html
 # Full list of available services: https://docs.upsun.com/add-services.html#available-services
 services:
-  mariadb:
-    type: mariadb:11.0 # All available versions are: 11.0, 10.11, 10.6, 10.5, 10.4, 10.3
+  mariadb1:
+    type: mariadb:11.0
+  mariadb2:
+    type: mariadb:11.0
 
 
 
@@ -153,7 +185,13 @@ services:
 routes:
   "https://{default}/":
     type: upstream
-    upstream: "upsuntest:http"
+    upstream: "app1:http"
+  "https://app1.{default}/":
+    type: upstream
+    upstream: "app1:http"
+  "https://app2.{default}/":
+    type: upstream
+    upstream: "app2:http"
   # A basic redirect definition
   # More information: https://docs.upsun.com/define-routes.html#basic-redirect-definition
   "https://www.{default}":
