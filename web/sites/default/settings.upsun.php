@@ -1,8 +1,5 @@
 <?php
 
-
-if (getenv('PLATFORM_PROJECT') != "") {
-<?php
 if (!empty($_ENV['PLATFORM_PROJECT'])) {
   $rels = json_decode(base64_decode($_ENV['PLATFORM_RELATIONSHIPS'] ?? ''), true) ?: [];
   if (!empty($rels['db'][0])) {
@@ -35,5 +32,4 @@ if (!empty($_ENV['PLATFORM_PROJECT'])) {
   // Helpful while debugging:
   $config['system.logging']['error_level'] = 'verbose';
   $settings['rebuild_access'] = TRUE;
-
 }
