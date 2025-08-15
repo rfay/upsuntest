@@ -19,7 +19,7 @@ applications:
     # side is in the form `<service name>:<endpoint name>`.
     # More information: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html#relationships
     relationships:
-      mariadb: "mariadb:db"
+      mariadb:
 
     mounts:
       "web/sites/default/files":
