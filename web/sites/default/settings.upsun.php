@@ -34,10 +34,10 @@ if (!empty($_ENV['PLATFORM_PROJECT'])) {
   }
 
   // Your existing bits:
-  $settings['hash_salt'] = $settings['hash_salt'] ?? ($_ENV['PLATFORM_PROJECT_ENTROPY'] ?? 'set-a-temp-salt-for-tests');
-  $settings['deployment_identifier'] = $settings['deployment_identifier'] ?? ($_ENV['PLATFORM_TREE_ID'] ?? null);
-  $settings['config_sync_directory'] = $settings['config_sync_directory'] ?? 'sites/default/files/sync';
-  $settings['trusted_host_patterns'] = $settings['trusted_host_patterns'] ?? ['.*'];
+  $settings['hash_salt'] = $_ENV['PLATFORM_PROJECT_ENTROPY'] ?? 'set-a-temp-salt-for-tests';
+  $settings['deployment_identifier'] = $_ENV['PLATFORM_TREE_ID'] ?? null;
+  $settings['config_sync_directory'] = 'sites/default/files/sync';
+  $settings['trusted_host_patterns'] = ['.*'];
   $config['system.logging']['error_level'] = 'verbose';
   $settings['rebuild_access'] = TRUE;
 }
