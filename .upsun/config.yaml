@@ -1,6 +1,6 @@
 # Complete list of all available properties: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html
 applications:
-  d11:
+  upsuntest:
     # Application source code directory
     source:
       root: "/"
