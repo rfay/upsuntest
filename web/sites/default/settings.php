@@ -856,17 +856,8 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 # $settings['migrate_file_public_path'] = '';
 # $settings['migrate_file_private_path'] = '';
 
-// Detect Upsun reliably.
-$__upsun_env =
-  !empty($_ENV['PLATFORM_RELATIONSHIPS']) ||
-  !empty($_ENV['PLATFORM_PROJECT']) ||
-  !empty($_ENV['PLATFORM_APPLICATION_NAME']);
-
-if ($__upsun_env) {
-  $upsun_settings = __DIR__ . '/settings.upsun.php';
-  if (is_readable($upsun_settings)) {
-    include $upsun_settings;
-  }
+if (getenv('PLATFORM_PROJECT_ENTROPY') != "") {
+  include __DIR__ . '/settings.upsun.php';
 }
 
 // Automatically generated include for settings managed by ddev.
