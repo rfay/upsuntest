@@ -19,8 +19,15 @@ applications:
     # side is in the form `<service name>:<endpoint name>`.
     # More information: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html#relationships
     relationships:
-      mariadb:
-      
+      mariadb: "mariadb:db"
+
+    mounts:
+      "web/sites/default/files":
+        source: storage
+        source_path: "sites/default/files"
+      "private":
+        source: storage
+        source_path: "private"
 
     # Mounts define directories that are writable after the build is complete.
     # More information: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html#mounts
@@ -52,8 +59,8 @@ applications:
         "/":
           passthru: "/index.php"
           root: "web"
-          
-        
+
+
 
     # Alternate copies of the application to run as background processes.
     # More information: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html#workers
@@ -71,7 +78,7 @@ applications:
     variables:
       env:
         N_PREFIX: "/app/.global"
-        
+
 
     # Outbound firewall rules for the application. More information: https://docs.upsun.com/create-apps/app-reference/single-runtime-image.html#firewall
     # firewall:
@@ -104,13 +111,13 @@ applications:
         n auto || n lts
         hash -r
         yarn
-        
+
       # The deploy hook is run after the app container has been started, but before it has started accepting requests.
       # More information: https://docs.upsun.com/create-apps/hooks/hooks-comparison.html#deploy-hook
       deploy: |
         set -eux
         # echo 'Put your deploy command here'
-        
+
 
       # The post_deploy hook is run after the app container has been started and after it has started accepting requests.
       # More information: https://docs.upsun.com/create-apps/hooks/hooks-comparison.html#deploy-hook
@@ -136,7 +143,7 @@ services:
   mariadb:
     type: mariadb:11.0 # All available versions are: 11.0, 10.11, 10.6, 10.5, 10.4, 10.3
 
-  
+
 
 # The routes of the project.
 #
